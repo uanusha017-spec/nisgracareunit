@@ -1,0 +1,541 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated hospital user profile (patient, family caregiver, or staff).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 200
+        },
+        "phone": {
+          "type": "string",
+          "maxLength": 30
+        },
+        "role": {
+          "type": "string",
+          "enum": ["patient", "admin"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "displayName", "email", "role", "createdAt", "updatedAt"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Authorized hospital administrator / clinician access record.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 200
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "grantedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "fullName", "title", "grantedBy", "createdAt"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Scheduled clinical consultation, campus tour, or admission assessment at Nisarga Care.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "patientName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "patientAge": {
+          "type": "number"
+        },
+        "contactPhone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "contactEmail": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 200
+        },
+        "department": {
+          "type": "string",
+          "enum": [
+            "Dementia & Alzheimer's Care",
+            "Parkinson's & Stroke Rehab",
+            "24/7 Geriatric & Nursing Care",
+            "Post-Operative & Bedridden Care",
+            "Palliative & Respite Care",
+            "Psychiatric Rehabilitation"
+          ]
+        },
+        "doctorName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "visitType": {
+          "type": "string",
+          "enum": [
+            "In-Person Consultation",
+            "Campus Tour & Admission",
+            "Physiotherapy Assessment",
+            "Video Family Consultation"
+          ]
+        },
+        "appointmentDate": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "maxLength": 10
+        },
+        "timeSlot": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 30
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "adminNotes": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "confirmed", "completed", "cancelled"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "patientName",
+        "patientAge",
+        "contactPhone",
+        "contactEmail",
+        "department",
+        "doctorName",
+        "visitType",
+        "appointmentDate",
+        "timeSlot",
+        "notes",
+        "adminNotes",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PatientRecord": {
+      "title": "PatientRecord",
+      "description": "Protected geriatric hospital resident and patient electronic medical record.",
+      "type": "object",
+      "properties": {
+        "mrn": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 32,
+          "pattern": "^[A-Z0-9\\-]+$"
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "age": {
+          "type": "number"
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["Female", "Male", "Other"]
+        },
+        "bloodGroup": {
+          "type": "string",
+          "enum": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", "Unknown"]
+        },
+        "careUnit": {
+          "type": "string",
+          "enum": [
+            "Dementia & Alzheimer's Care",
+            "Parkinson's & Stroke Rehab",
+            "24/7 Geriatric & Nursing Care",
+            "Post-Operative & Bedridden Care",
+            "Palliative & Respite Care",
+            "Psychiatric Rehabilitation"
+          ]
+        },
+        "roomNumber": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "attendingDoctor": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "primaryDiagnosis": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 300
+        },
+        "allergies": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "medications": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "dietPlan": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "emergencyContactName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "emergencyContactPhone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "admissionDate": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "maxLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "respite", "discharged"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "mrn",
+        "ownerUid",
+        "fullName",
+        "age",
+        "gender",
+        "bloodGroup",
+        "careUnit",
+        "roomNumber",
+        "attendingDoctor",
+        "primaryDiagnosis",
+        "allergies",
+        "medications",
+        "dietPlan",
+        "emergencyContactName",
+        "emergencyContactPhone",
+        "admissionDate",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CareLog": {
+      "title": "CareLog",
+      "description": "Daily nursing vitals, doctor round observation, or physiotherapy session log for a patient.",
+      "type": "object",
+      "properties": {
+        "patientId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "logType": {
+          "type": "string",
+          "enum": ["Vitals Check", "Doctor Round", "Physiotherapy", "Nutrition & Hygiene", "Medication"]
+        },
+        "bloodPressure": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "pulseBpm": {
+          "type": "number"
+        },
+        "spo2Percent": {
+          "type": "number"
+        },
+        "bloodSugarMgDl": {
+          "type": "number"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 1200
+        },
+        "recordedBy": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "patientId",
+        "ownerUid",
+        "logType",
+        "bloodPressure",
+        "pulseBpm",
+        "spo2Percent",
+        "bloodSugarMgDl",
+        "summary",
+        "recordedBy",
+        "createdAt"
+      ]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Family admission callback or care program inquiry.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "senderName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 30
+        },
+        "careInterest": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "message": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["open", "resolved"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "senderName",
+        "phone",
+        "careInterest",
+        "message",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "Hospital geriatric care and rehabilitation blog article managed via Admin Dashboard CRUD.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 180
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 140,
+          "pattern": "^[a-z0-9\\-]+$"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Dementia & Memory Care",
+            "Rehabilitation & Mobility",
+            "Senior Living & Nutrition",
+            "Mental Health & Wellness",
+            "Hospital Updates"
+          ]
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 400
+        },
+        "content": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 12000
+        },
+        "coverImage": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120
+        },
+        "authorUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "readTimeMinutes": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published"]
+        },
+        "publishedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "maxLength": 10
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "title",
+        "slug",
+        "category",
+        "excerpt",
+        "content",
+        "coverImage",
+        "authorName",
+        "authorUid",
+        "readTimeMinutes",
+        "status",
+        "publishedAt",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user account profiles isolated by UID."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Authorized hospital administrators and clinical staff."
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Hospital consultations, campus visits, and admission assessments."
+    },
+    "/patients/{patientId}": {
+      "schema": { "$ref": "#/entities/PatientRecord" },
+      "description": "Geriatric resident and patient medical records."
+    },
+    "/patients/{patientId}/careLogs/{logId}": {
+      "schema": { "$ref": "#/entities/CareLog" },
+      "description": "Daily nursing vitals, doctor rounds, and rehabilitation progress logs."
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": { "$ref": "#/entities/Inquiry" },
+      "description": "Family care inquiries and callback requests."
+    },
+    "/blogs/{blogId}": {
+      "schema": { "$ref": "#/entities/BlogPost" },
+      "description": "Published hospital blog articles and admin drafts."
+    }
+  }
+}

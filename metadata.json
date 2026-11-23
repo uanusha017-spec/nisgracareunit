@@ -1,0 +1,6 @@
+{
+  "name": "Nisarga Care — Geriatric Hospital & Assisted Living",
+  "description": "End-to-end geriatric hospital, assisted living, and rehabilitation platform for Nisarga Care Bengaluru (Est. 1989) with appointment scheduling, electronic patient records, AI care assistant, WhatsApp care line, and secure clinical dashboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
